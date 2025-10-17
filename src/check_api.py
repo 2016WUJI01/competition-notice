@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 today = date.today().isoformat()
-API_URL = f"https://www.worldcubeassociation.org/api/v0/competitions?country_iso2=CN&start={today}"
+API_URL = f"https://www.worldcubeassociation.org/api/v0/competitions?country_iso2=CN&start={today}&sort=-announced_at"
 RESULT_FILE = "last_result.json"
 
 EMAIL_USER = os.getenv("EMAIL_USER")
@@ -47,15 +47,19 @@ def send_email(subject, content):
     if not (EMAIL_USER and EMAIL_PASS and EMAIL_TO):
         print("[WARN] 邮箱环境变量未设置，跳过邮件发送。")
         return
+
+    # 支持多个收件人，用逗号分隔
+    recipients = [email.strip() for email in EMAIL_TO.split(",")]
+
     msg = MIMEText(content, "plain", "utf-8")
     msg["From"] = Header(EMAIL_USER)
-    msg["To"] = Header(EMAIL_TO)
+    msg["To"] = Header(", ".join(recipients))
     msg["Subject"] = Header(subject, "utf-8")
     try:
         with smtplib.SMTP_SSL("smtp.163.com", 465) as server:
             server.login(EMAIL_USER, EMAIL_PASS)
-            server.sendmail(EMAIL_USER, [EMAIL_TO], msg.as_string())
-        print("[INFO] 邮件已发送。")
+            server.sendmail(EMAIL_USER, recipients, msg.as_string())
+        print(f"[INFO] 邮件已发送至: {', '.join(recipients)}")
     except Exception as e:
         print(f"[ERROR] 邮件发送失败: {e}")
 

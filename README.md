@@ -17,7 +17,7 @@
    在仓库Settings > Secrets and variables > Actions中添加：
    - `EMAIL_USER`: 发送邮箱（如：`your-email@163.com`）
    - `EMAIL_PASS`: 邮箱授权码
-   - `EMAIL_TO`: 接收邮箱
+   - `EMAIL_TO`: 接收邮箱（支持多个邮箱，用逗号分隔，如：`email1@example.com,email2@example.com`）
 
 3. **启用Actions**
 
@@ -41,6 +41,8 @@ pip install -r requirements.txt
 EMAIL_USER=your-email@163.com
 EMAIL_PASS=your-auth-code
 EMAIL_TO=notify@example.com
+# 或者配置多个接收邮箱（用逗号分隔）
+# EMAIL_TO=email1@example.com,email2@example.com,email3@example.com
 ```
 
 ### 运行方式
