@@ -60,7 +60,7 @@ python src/check_api.py
 crontab -e
 
 # 添加定时任务（每5分钟）
-*/5 * * * * cd /path/to/competition-notice && python src/check_api.py >> /var/log/competition-notice.log 2>&1
+echo "*/5 * * * * /home/jiashun/Desktop/coding/competition-notice/run_check.sh" | crontab -
 ```
 
 **定时运行（Windows）**：
