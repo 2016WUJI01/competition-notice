@@ -60,6 +60,14 @@ def send_email(subject, content):
         print(f"[ERROR] 邮件发送失败: {e}")
 
 
+def git_commit_and_push():
+    subprocess.run(["git", "config", "user.name", "github-actions"], check=True)
+    subprocess.run(["git", "config", "user.email", "github-actions@github.com"], check=True)
+    subprocess.run(["git", "add", RESULT_FILE], check=True)
+    subprocess.run(["git", "commit", "-m", "chore: update API result [auto]"], check=True)
+    subprocess.run(["git", "push"], check=True)
+
+
 def get_diff(old, new):
     old_set = set(old or [])
     new_set = set(new or [])
